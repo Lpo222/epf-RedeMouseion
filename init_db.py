@@ -15,8 +15,8 @@ cursor = connection.cursor()
 
 #comando que cria a tabela 'users'
 cursor.execute('''
-    CREATE TABLE IF NOT EXIST users (
-        id INTEGER PRIMARY KEY AUTOICREMENT,
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         birthdate TEXT NOT NULL
