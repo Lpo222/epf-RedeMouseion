@@ -15,6 +15,13 @@
             <input type="email" id="email" name="email" required 
                    value="{{user.email if user else ''}}">
         </div>
+
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" 
+                   placeholder="{{'Deixe em branco para não alterar' if user else ''}}"
+                   {{'required' if not user else ''}}>
+        </div>
         
         <div class="form-group">
             <label for="birthdate">Data de Nascimento:</label>

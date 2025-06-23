@@ -1,5 +1,6 @@
 from bottle import request
 from models.user import UserModel, User
+import bcrypt
 
 class UserService:
     def __init__(self):
@@ -12,14 +13,17 @@ class UserService:
 
 
     def save(self):
-        last_id = max([u.id for u in self.user_model.get_all()], default=0)
-        new_id = last_id + 1
         name = request.forms.get('name')
         email = request.forms.get('email')
         birthdate = request.forms.get('birthdate')
+        password = request.forms.get('password')
 
-        user = User(id=new_id, name=name, email=email, birthdate=birthdate)
-        self.user_model.add_user(user)
+        password_bytes = password.encode('utf-8')
+        salt = bcrypt.gensalt()
+        password_hash = bcrypt.hashpw(password_bytes, salt)
+
+        new_user = User(name=name, email=email, birthdate=birthdate, password_hash=password_hash)
+        self.user_model.add_user(new_user)
 
 
     def get_by_id(self, user_id):
@@ -30,6 +34,12 @@ class UserService:
         name = request.forms.get('name')
         email = request.forms.get('email')
         birthdate = request.forms.get('birthdate')
+        new_password = request.forms.get('password')
+
+        if new_password:
+            password_bytes = new_password.encode('utf-8')
+            salt = bcrypt.gensalt()
+            user.password_hash = bcrypt.hashpw(password_bytes, salt)
 
         user.name = name
         user.email = email

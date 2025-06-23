@@ -6,11 +6,13 @@ from typing import List
 DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'database.db')
 
 class User:
-    def __init__(self, id, name, email, birthdate):
+    def __init__(self, name, email, birthdate,password_hash , id=None):
         self.id = id
         self.name = name
         self.email = email
         self.birthdate = birthdate
+        self.password_hash = password_hash
+
 
 
     def __repr__(self):
@@ -59,28 +61,28 @@ class UserModel:
     def get_all(self):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users")
+        cursor.execute("SELECT id, name, email, birthdate, password_hash FROM users")
         rows = cursor.fetchall()
         conn.close()
         #converte todas as linhas em objetos de User
-        return [User(id=row[0], name=row[1], email=row[2], birthdate=row[3]) for row in rows]
+        return [User(id=row[0], name=row[1], email=row[2], birthdate=row[3], password_hash=row[4]) for row in rows]
 
     def get_by_id(self, user_id: int):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+        cursor.execute("SELECT id, name, email, birthdate, password_hash FROM users WHERE id = ?", (user_id,))
         row = cursor.fetchone()
         conn.close()
         if row:
-            return User(id=row[0], name=row[1], email=row[2], birthdate=row[3])
+            return User(id=row[0], name=row[1], email=row[2], birthdate=row[3], password_hash=row[4])
         return None
     
     def add_user(self, user: User):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO users (name, email, birthdate) VALUES (?, ?, ?)",
-            (user.name, user.email, user.birthdate)
+            "INSERT INTO users (name, email, birthdate, password_hash) VALUES (?, ?, ?, ?)",
+            (user.name, user.email, user.birthdate, user.password_hash)
         )
         conn.commit()
         conn.close()
@@ -89,8 +91,8 @@ class UserModel:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute(
-            "UPDATE users SET name = ?, email = ?, birthdate = ? WHERE id = ?",
-            (updated_user.name, updated_user.email, updated_user.birthdate, updated_user.id)
+            "UPDATE users SET name = ?, email = ?, birthdate = ?, password_hash = ? WHERE id = ?",
+            (updated_user.name, updated_user.email, updated_user.birthdate, updated_user.password_hash, updated_user.id)
         )
         conn.commit()
         conn.close()
