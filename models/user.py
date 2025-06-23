@@ -79,7 +79,7 @@ class UserModel:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO users (name, email, bithdate) VALUES (?, ?, ?)",
+            "INSERT INTO users (name, email, birthdate) VALUES (?, ?, ?)",
             (user.name, user.email, user.birthdate)
         )
         conn.commit()
