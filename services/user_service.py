@@ -17,12 +17,15 @@ class UserService:
         email = request.forms.get('email')
         birthdate = request.forms.get('birthdate')
         password = request.forms.get('password')
+        is_researcher = request.forms.get('is_researcher')
+
+        role = 'pesquisador' if is_researcher else 'leitor'
 
         password_bytes = password.encode('utf-8')
         salt = bcrypt.gensalt()
         password_hash = bcrypt.hashpw(password_bytes, salt)
 
-        new_user = User(name=name, email=email, birthdate=birthdate, password_hash=password_hash)
+        new_user = User(name=name, email=email, birthdate=birthdate, password_hash=password_hash, role=role)
         self.user_model.add_user(new_user)
 
 

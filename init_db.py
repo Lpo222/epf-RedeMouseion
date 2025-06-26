@@ -20,7 +20,8 @@ cursor.execute('''
         name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         birthdate TEXT NOT NULL,
-        password_hash TEXT NOT NULL
+        password_hash TEXT NOT NULL,
+        role TEXT NOT NULL DEFAULT 'leitor'
     )
 ''')
 

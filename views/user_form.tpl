@@ -28,6 +28,11 @@
             <input type="date" id="birthdate" name="birthdate" required 
                    value="{{user.birthdate if user else ''}}">
         </div>
+
+        <div class="form-group">
+            <input type="checkbox" id="is_researcher" name="is_researcher" value="yes">
+            <label for="is_researcher">Sou um pesquisador</label>
+        </div>
         
         <div class="form-actions">
             <button type="submit" class="btn-submit">Salvar</button>
