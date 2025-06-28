@@ -97,6 +97,16 @@ class UserModel:
             return self._create_user_from_row(row)
         return None
     
+    def get_by_email(self, email: str):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name, email, birthdate, password_hash, role FROM users WHERE email = ?", (email,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return self._create_user_from_row(row) # Reutilizamos nossa "fábrica" de objetos
+        return None
+    
     def add_user(self, user: User):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
