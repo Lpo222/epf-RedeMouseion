@@ -6,7 +6,7 @@ publication_routes = Bottle()
 publication_service = PublicationService()
 user_model = UserModel()
 
-SIMULATED_USER_ID = 1
+SIMULATED_USER_ID = 2
 
 @publication_routes.get('/publications')
 def list_publications():

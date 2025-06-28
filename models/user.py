@@ -102,7 +102,7 @@ class UserModel:
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO users (name, email, birthdate, password_hash, role) VALUES (?, ?, ?, ?, ?)",
-            (user.name, user.email, user.birthdate, user.password_hash)
+            (user.name, user.email, user.birthdate, user.password_hash, user.role)
         )
         conn.commit()
         conn.close()
