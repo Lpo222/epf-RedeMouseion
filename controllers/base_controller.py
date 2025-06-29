@@ -31,7 +31,9 @@ class BaseController:
 
     def render(self, template, **context):
         """Método auxiliar para renderizar templates"""
-        from bottle import template as render_template
+        from bottle import template as render_template, request
+        context['request'] = request
+        
         return render_template(template, **context)
 
 

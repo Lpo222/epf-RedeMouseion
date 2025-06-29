@@ -8,15 +8,28 @@
 </head>
 <body>
 
+    <header class="main-header">
+        <h1>Minha Rede Acadêmica</h1>
+        <nav class="main-nav">
+            <a href="/users">Usuários</a>
+            <a href="/publications">Publicações</a>
+
+            % if request.user:
+                <span class="user-greeting">Bem vindo, {{ request.user.name }}!</span>
+                <a href="/logout">Logout</a>
+            % else:
+                <a href="/login">Login</a>
+            % end
+        </nav>
+    </header>
+    <hr>
     <div class="container">
-        {{!base}}  <!-- O conteúdo das páginas filhas virá aqui -->
-    </div>
+        {{!base}}  </div>
 
     <footer>
         <p>&copy; 2025, Meu Projeto. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Scripts JS no final do body -->
     <script src="/static/js/main.js"></script>
 </body>
 </html>
