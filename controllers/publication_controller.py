@@ -3,12 +3,14 @@ from .base_controller import BaseController
 from services.publication_service import PublicationService
 from models.user import UserModel, Pesquisador
 from config import Config
+from models.comment import CommentModel
 
 class PublicationController(BaseController):
     def __init__(self, app):
         super().__init__(app)
         self.publication_service = PublicationService()
         self.user_model = UserModel()
+        self.comment_model = CommentModel()
         self.setup_routes()
 
     def setup_routes(self):
@@ -16,6 +18,7 @@ class PublicationController(BaseController):
         self.app.route('/publications', method='GET', callback=self.list_publications)
         self.app.route('/publications/add', method='GET', callback=self.show_add_form)
         self.app.route('/publications/add', method='POST', callback=self.add_publication)
+        self.app.route('/publications/<pub_id:int>', method='GET', callback=self.show_publication_detail)
 
     def get_current_user(self):
         """Função auxiliar para pegar o usuário logado a partir do cookie."""
@@ -42,6 +45,13 @@ class PublicationController(BaseController):
         else:
             self.publication_service.save(author_id=current_user.id)
             self.redirect('/publications')
+    
+    def show_publication_detail(self, pub_id):
+        publication = self.publication_service.get_by_id(pub_id)
+        comments = self.comment_model.get_by_publication_id(pub_id)
+        if publication:
+            return self.render('publication_detail', publication=publication, comments=comments)
+        return "Publicaçao não encontrada"
 
 publication_routes = Bottle()
 PublicationController(publication_routes)

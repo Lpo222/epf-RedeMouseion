@@ -14,3 +14,6 @@ class PublicationService:
 
         new_pub = Publication(title=title, content=content, author_id=author_id)
         self.publication_model.add_publication(new_pub)
+
+    def get_by_id(self, pub_id):
+        return self.publication_model.get_by_id(pub_id)

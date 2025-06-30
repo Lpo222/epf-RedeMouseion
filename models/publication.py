@@ -29,3 +29,13 @@ class PublicationModel:
         )
         conn.commit()
         conn.close()
+
+    def get_by_id(self, pub_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, title, content, author_id, created_at FROM publications WHERE id = ?", (pub_id,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return Publication(id=row[0], title=row[1], content=row[2], author_id=row[3], created_at=row[4])
+        return None

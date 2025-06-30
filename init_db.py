@@ -37,6 +37,19 @@ cursor.execute('''
     )
 ''')
 
+#comando que cria a tabela 'comments'
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        content TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        author_id INTEGER NOT NULL,
+        publication_id INTEGER NOT NULL,
+        FOREIGN KEY (author_id) REFERENCES users (id),
+        FOREIGN KEY (publication_id) REFERENCES publications (id)
+    )
+''')
+
 #commita as alterações no banco
 connection.commit()
 
