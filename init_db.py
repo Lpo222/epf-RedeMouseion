@@ -50,6 +50,17 @@ cursor.execute('''
     )
 ''')
 
+#comando SQL para criar a tabela join 'likes'
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS likes (
+        user_id INTEGER NOT NULL,
+        publication_id INTEGER NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users (id),
+        FOREIGN KEY (publication_id) REFERENCES publications (id),
+        PRIMARY KEY (user_id, publication_id)
+    )
+''')
+
 #commita as alterações no banco
 connection.commit()
 

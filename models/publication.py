@@ -39,3 +39,33 @@ class PublicationModel:
         if row:
             return Publication(id=row[0], title=row[1], content=row[2], author_id=row[3], created_at=row[4])
         return None
+    
+    def get_like_count(self, pub_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM likes WHERE publication_id = ?", (pub_id,))
+        count = cursor.fetchone()[0]
+        conn.close()
+        return count
+    
+    def is_liked_by_user(self, pub_id: int, user_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1 FROM likes WHERE publication_id = ? AND user_id = ?", (pub_id, user_id))
+        result = cursor.fetchone()
+        conn.close()
+        return result is not None
+    
+    def add_like(self, pub_id: int, user_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("INSERT OR IGNORE INTO likes (publication_id, user_id) VALUES (?, ?)", (pub_id, user_id))
+        conn.commit()
+        conn.close()
+    
+    def remove_like(self, pub_id: int, user_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM likes WHERE publication_id = ? AND user_id = ?", (pub_id, user_id))
+        conn.commit()
+        conn.close()

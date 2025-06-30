@@ -7,6 +7,22 @@
 </article>
 
 <hr>
+<section class="actions-section">
+    <form action="/publications/{{publication.id}}/like" method="post">
+        <span>{{like_count}} curtidas</span>
+        % if request.user:
+            <button type="submit" class="btn-like">
+                % if is_liked:
+                    Descurtir
+                % else:
+                    Curtir
+                % end
+            </button>
+        % end
+    </form>
+</section>
+
+<hr>
 
 <section class="comments-section">
     <h2>Comentários</h2>

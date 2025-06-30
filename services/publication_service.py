@@ -17,3 +17,9 @@ class PublicationService:
 
     def get_by_id(self, pub_id):
         return self.publication_model.get_by_id(pub_id)
+    
+    def toggle_like(self, pub_id, user_id):
+        if self.publication_model.is_liked_by_user(pub_id, user_id):
+            self.publication_model.remove_like(pub_id, user_id)
+        else:
+            self.publication_model.add_like(pub_id, user_id)
