@@ -27,6 +27,13 @@
         </nav>
     </header>
 <hr>
+
+% if flash_message:
+    <div class="flash-message {{flash_category}}">
+        <p>{{flash_message}}</p>
+    </div>
+% end
+
     <div class="container">
         {{!base}}  </div>
 

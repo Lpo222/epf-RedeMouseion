@@ -29,6 +29,7 @@ class UserController(BaseController):
         else:
             # POST - salvar usuário
             self.user_service.save()
+            self.set_flash_message("Usuário cadastrado com sucesso!")
             self.redirect('/users')
 
 

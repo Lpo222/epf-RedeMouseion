@@ -45,6 +45,7 @@ class PublicationController(BaseController):
             self.redirect('/login')
         else:
             self.publication_service.save(author_id=current_user.id)
+            self.set_flash_message("Publicação postada com sucesso!")
             self.redirect('/publications')
     
     def show_publication_detail(self, pub_id):
