@@ -49,6 +49,14 @@ class Pesquisador(User):
         super().__init__(name, email, birthdate, password_hash, role='pesquisador', id=id)
     def can_publish(self):
         return True
+    
+class Admin(Pesquisador):
+    def __init__(self, name, email, birthdate, password_hash, id=None):
+        super().__init__(name, email, birthdate, password_hash, id=id)
+        self.role = 'admin'
+
+    def can_moderate(self):
+        return True
 
 class UserModel:
 
@@ -72,7 +80,9 @@ class UserModel:
     # essa funçao decide qual classe instanciar dependendo de qual a role
     def _create_user_from_row(self, row):
         role = row[5]
-        if role == 'pesquisador':
+        if role == 'admin':
+            return Admin(id=row[0], name=row[1], email=row[2], birthdate=row[3], password_hash=row[4])
+        elif role == 'pesquisador':
             return Pesquisador(id=row[0], name=row[1], email=row[2], birthdate=row[3], password_hash=row[4])
         else:
             return Leitor(id=row[0], name=row[1], email=row[2], birthdate=row[3], password_hash=row[4])
