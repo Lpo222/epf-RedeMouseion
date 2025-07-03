@@ -10,3 +10,6 @@ class CommentService:
         if content: #garante que nao haja comentarios vazios
             new_comment = Comment(content=content, author_id=author_id, publication_id=publication_id)
             self.comment_model.add_comment(new_comment)
+
+    def delete_comment(self, comment_id):
+        self.comment_model.delete_by_id(comment_id)

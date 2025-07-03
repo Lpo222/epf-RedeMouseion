@@ -36,3 +36,20 @@ class CommentModel:
         )
         conn.commit()
         conn.close()
+
+    def get_by_id(self, comment_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, content, author_id, publication_id, created_at FROM comments WHERE id = ?", (comment_id,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return Comment(id=row[0], content=row[1], author_id=row[2], publication_id=row[3], created_at=row[4])
+        return None
+    
+    def delete_by_id(self, comment_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM comments WHERE id = ?", (comment_id,))
+        conn.commit()
+        conn.close()

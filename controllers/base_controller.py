@@ -60,3 +60,13 @@ class BaseController:
         """Método auxiliar para redirecionamento"""
         from bottle import redirect as bottle_redirect
         return bottle_redirect(path)
+
+    def get_current_user(self):
+        """Função auxiliar para pegar o usuário logado a partir do cookie."""
+        from models.user import UserModel
+        from config import Config
+
+        user_id = request.get_cookie("user_id", secret=Config.SECRET_KEY)
+        if user_id:
+            return UserModel().get_by_id(int(user_id))
+        return None

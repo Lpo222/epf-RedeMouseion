@@ -37,10 +37,18 @@ from models.user import Admin, User
 
 <section class="comments-section">
     <h2>Comentários</h2>
-    % for comment in comments:
+   % for comment in comments:
         <div class="comment">
             <p>{{comment.content}}</p>
-            <small>Por: <strong>{{comment.author_name}}</strong> em {{comment.created_at}}</small>
+            <div class="comment-footer">
+                <small>Por: <strong>{{comment.author_name}}</strong> em {{comment.created_at}}</small>
+
+                % if request.user and isinstance(request.user, Admin):
+                    <form action="/comments/{{comment.id}}/delete" method="post" onsubmit="return confirm('Tem certeza que deseja apagar este comentário?');" class="delete-comment-form">
+                        <button type="submit" class="btn-delete-comment">Apagar</button>
+                    </form>
+                % end
+            </div>
         </div>
     % end
 
