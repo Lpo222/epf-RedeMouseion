@@ -1,7 +1,7 @@
 from bottle import Bottle, request, redirect
 from .base_controller import BaseController
 from services.publication_service import PublicationService
-from models.user import UserModel, Pesquisador
+from models.user import UserModel, Pesquisador, Admin
 from config import Config
 from models.comment import CommentModel
 
@@ -20,6 +20,7 @@ class PublicationController(BaseController):
         self.app.route('/publications/add', method='POST', callback=self.add_publication)
         self.app.route('/publications/<pub_id:int>', method='GET', callback=self.show_publication_detail)
         self.app.route('/publications/<pub_id:int>/like', method='POST', callback=self.toggle_like)
+        self.app.route('/publications/<pub_id:int>/delete', method='POST', callback=self.delete_publication)
 
     def get_current_user(self):
         """Função auxiliar para pegar o usuário logado a partir do cookie."""
@@ -47,6 +48,18 @@ class PublicationController(BaseController):
             self.publication_service.save(author_id=current_user.id)
             self.set_flash_message("Publicação postada com sucesso!")
             self.redirect('/publications')
+
+    def delete_publication(self, pub_id):
+        current_user = self.get_current_user()
+        
+        #Somente um Admin pode deletar
+        if not (current_user and isinstance(current_user, Admin)):
+            self.set_flash_message("Acesso negado.", category='error')
+            return self.redirect('/login')
+
+        self.publication_service.delete_publication(pub_id)
+        self.set_flash_message("Publicação removida com sucesso!")
+        return self.redirect('/publications')
     
     def show_publication_detail(self, pub_id):
 

@@ -40,6 +40,29 @@ class PublicationModel:
             return Publication(id=row[0], title=row[1], content=row[2], author_id=row[3], created_at=row[4])
         return None
     
+    def delete_by_id(self, pub_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        try:
+            #Deleta todas as curtidas da publicação
+            cursor.execute("DELETE FROM likes WHERE publication_id = ?", (pub_id,))
+            
+            #Deleta todos os comentários da publicação
+            cursor.execute("DELETE FROM comments WHERE publication_id = ?", (pub_id,))
+            
+            #Deleta a publicação
+            cursor.execute("DELETE FROM publications WHERE id = ?", (pub_id,))
+            
+            # Confirma (salva) todas as alterações
+            conn.commit()
+        except sqlite3.Error as e:
+            # Se ocorrer um erro, desfaz tudo
+            print(f"Erro ao deletar publicação: {e}")
+            conn.rollback()
+        finally:
+            conn.close()
+    
     def get_like_count(self, pub_id: int):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()

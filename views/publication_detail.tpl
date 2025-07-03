@@ -1,3 +1,7 @@
+<%
+from models.user import Admin, User
+%>
+
 % rebase('layout', title=publication.title)
 
 <article class="publication-detail">
@@ -20,6 +24,13 @@
             </button>
         % end
     </form>
+
+    % if request.user and isinstance(request.user, Admin):
+        <form action="/publications/{{publication.id}}/delete" method="post" onsubmit="return confirm('Tem certeza que deseja apagar esta publicação? Esta ação não pode ser desfeita.');">
+            <button type="submit" class="btn-delete">Apagar Publicação</button>
+        </form>
+    % end
+
 </section>
 
 <hr>
