@@ -22,7 +22,7 @@ Mouseion é uma aplicação web desenvolvida em Python com o framework Bottle. I
 
 ![Diagrama de Classes](docs/diagrama_classes.png)
 
-```
+---
 
 ## Como Executar o Projeto Localmente
 
