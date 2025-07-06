@@ -238,3 +238,37 @@ article h2 {
   align-items: flex-start;
   gap: 10px; 
 }
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.role-badge {
+    padding: 3px 8px;
+    border-radius: 10px;
+    color: white;
+    font-size: 0.9em;
+}
+.role-badge.admin { background-color: #e74c3c; }
+.role-badge.pesquisador { background-color: var(--primary-accent); }
+.role-badge.leitor { background-color: #777; }
+
+.profile-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.profile-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.profile-list li {
+    background-color: var(--card-background);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--secondary-accent);
+}

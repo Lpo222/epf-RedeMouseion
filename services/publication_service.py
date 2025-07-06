@@ -18,6 +18,9 @@ class PublicationService:
     def get_by_id(self, pub_id):
         return self.publication_model.get_by_id(pub_id)
     
+    def get_by_author(self, author_id):
+        return self.publication_model.get_by_author_id(author_id)
+    
     def delete_publication(self, pub_id):
         self.publication_model.delete_by_id(pub_id)
     

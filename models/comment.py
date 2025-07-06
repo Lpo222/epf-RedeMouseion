@@ -47,6 +47,20 @@ class CommentModel:
             return Comment(id=row[0], content=row[1], author_id=row[2], publication_id=row[3], created_at=row[4])
         return None
     
+    def get_by_author_id(self, author_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT c.id, c.content, c.created_at, p.id, p.title
+            FROM comments c
+            JOIN publications p ON c.publication_id = p.id
+            WHERE c.author_id = ?
+            ORDER BY c.created_at DESC
+        """, (author_id,))
+        rows = cursor.fetchall()
+        conn.close()
+        return [{'id': row[0], 'content': row[1], 'created_at': row[2], 'publication_id': row[3], 'publication_title': row[4]} for row in rows]
+    
     def delete_by_id(self, comment_id: int):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()

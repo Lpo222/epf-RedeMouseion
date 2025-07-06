@@ -3,6 +3,8 @@ from .base_controller import BaseController
 from services.user_service import UserService
 from config import Config
 from models.user import Admin
+from services.publication_service import PublicationService
+from services.comment_service import CommentService
 
 class UserController(BaseController):
     def __init__(self, app):
@@ -10,6 +12,8 @@ class UserController(BaseController):
 
         self.setup_routes()
         self.user_service = UserService()
+        self.publication_service = PublicationService()
+        self.comment_service = CommentService()
 
     def get_current_user(self):
         """Função auxiliar para pegar o usuário logado a partir do cookie."""
@@ -24,9 +28,7 @@ class UserController(BaseController):
     def setup_routes(self):
         self.app.route('/users', method='GET', callback=self.list_users)
         self.app.route('/users/add', method=['GET', 'POST'], callback=self.add_user)
-        # self.app.route('/users/edit/<user_id:int>', method=['GET', 'POST'], callback=self.edit_user)
-        # self.app.route('/users/delete/<user_id:int>', method='POST', callback=self.delete_user)
-
+        self.app.route('/profile', method='GET', callback=self.show_profile)
 
     def list_users(self):
         current_user = self.get_current_user()
@@ -47,6 +49,20 @@ class UserController(BaseController):
             self.set_flash_message("Usuário cadastrado com sucesso!")
             self.redirect('/users')
 
+    def show_profile(self):
+        current_user = self.get_current_user()
+
+        if not current_user:
+            return self.redirect('/login')
+
+        #Busca as publicações e comentários do usuário logado
+        user_publications = self.publication_service.get_by_author(current_user.id)
+        user_comments = self.comment_service.get_by_author(current_user.id)
+
+        return self.render('profile', 
+                           user=current_user, 
+                           publications=user_publications, 
+                           comments=user_comments)
 
     def edit_user(self, user_id):
         user = self.user_service.get_by_id(user_id)
@@ -56,7 +72,6 @@ class UserController(BaseController):
         if request.method == 'GET':
             return self.render('user_form', user=user, action=f"/users/edit/{user_id}")
         else:
-            # POST - salvar edição
             self.user_service.edit_user(user)
             self.redirect('/users')
 

@@ -40,6 +40,14 @@ class PublicationModel:
             return Publication(id=row[0], title=row[1], content=row[2], author_id=row[3], created_at=row[4])
         return None
     
+    def get_by_author_id(self, author_id: int):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM publications WHERE author_id = ? ORDER BY created_at DESC", (author_id,))
+        rows = cursor.fetchall()
+        conn.close()
+        return [Publication(id=row[0], title=row[1], content=row[2], author_id=row[3], created_at=row[4]) for row in rows]
+    
     def delete_by_id(self, pub_id: int):
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
