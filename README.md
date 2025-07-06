@@ -1,105 +1,85 @@
-# Projeto Template: POO com Python + Bottle + JSON
+# Mouseion: Uma Rede Social Acadêmica
 
-Este é um projeto de template educacional voltado para o ensino de **Programação Orientada a Objetos (POO)** do Prof. Lucas Boaventura, Universidade de Brasília (UnB).
+Mouseion é uma aplicação web desenvolvida em Python com o framework Bottle. Inspirada no antigo Mouseion de Alexandria, a plataforma serve como uma rede social para pesquisadores e entusiastas de diversas áreas do conhecimento, permitindo a publicação e discussão de artigos e pesquisas em um ambiente moderado.
 
-Utiliza o microframework **Bottle**. Ideal para uso em disciplinas introdutórias de Engenharia de Software ou Ciência da Computação.
+## Funcionalidades Principais
 
-## 💡 Objetivo
+* **Sistema de Usuários com Níveis de Permissão:**
+    * **Leitor:** Pode navegar pelas publicações, ler, curtir e comentar.
+    * **Pesquisador:** Tem todas as permissões de um Leitor e, adicionalmente, pode criar novas publicações.
+    * **Admin:** Usuário com poder de moderação, capaz de apagar qualquer publicação ou comentário na plataforma.
 
-Fornecer uma base simples, extensível e didática para construção de aplicações web orientadas a objetos com aplicações WEB em Python, ideal para trabalhos finais ou exercícios práticos.
+* **Autenticação Segura:** Sistema completo de cadastro, login e logout, com armazenamento seguro de senhas utilizando hashing com a biblioteca `bcrypt`.
+
+* **Publicações, Comentários e Curtidas:**
+    * Criação e listagem de publicações.
+    * Sistema de comentários aninhados em cada publicação.
+    * Funcionalidade de "Curtir" e "Descurtir", demonstrando um relacionamento Muitos-para-Muitos(N - N).
+
+* **Página de Perfil Pessoal:** Cada usuário logado possui uma página de perfil onde pode visualizar um resumo de todas as suas contribuições (publicações e comentários).
 
 ---
 
-## 🗂 Estrutura de Pastas
+    DIAGRAMA DE CLASSES
 
-```bash
-poo-python-bottle-template/
-├── app.py # Ponto de entrada do sistema
-├── config.py # Configurações e caminhos do projeto
-├── main.py # Inicialização da aplicação
-├── requirements.txt # Dependências do projeto
-├── README.md # Este arquivo
-├── controllers/ # Controladores e rotas
-├── models/ # Definição das entidades (ex: User)
-├── services/ # Lógica de persistência (JSON)
-├── views/ # Arquivos HTML (Bottle Templating)
-├── static/ # CSS, JS e imagens
-├── data/ # Arquivos JSON de dados
-└── .vscode/ # Configurações opcionais do VS Code
 ```
 
+## Como Executar o Projeto Localmente
+
+### Pré-requisitos
+- Python 3.10 ou superior
+- pip (gerenciador de pacotes do Python)
+
+### Passos para Instalação
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/desktop/desktop/issues/18661](https://github.com/desktop/desktop/issues/18661)
+    cd nome-da-pasta-do-projeto
+    ```
+
+2.  **Crie e ative um ambiente virtual:**
+    ```bash
+    # No Windows
+    python -m venv venv
+    .\\venv\\Scripts\\activate
+
+    # No macOS/Linux
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+
+3.  **Instale as dependências:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Inicialize o banco de dados:**
+    Este comando criará o arquivo `database.db`.
+    ```bash
+    python init_db.py
+    ```
+
+5.  **(Opcional) Crie um usuário Administrador(Escolha Nome e Senha no arquivo `create_admin.py`):**
+    ```bash
+    python create_admin.py
+    ```
+
+6.  **Execute a aplicação:**
+    ```bash
+    python main.py
+    ```
+    A aplicação estará disponível em `http://localhost:8080`.
 
 ---
 
-## 📁 Descrição das Pastas
+## 🧠 Autores e Licença
 
-### `controllers/`
-Contém as classes responsáveis por lidar com as rotas da aplicação. Exemplos:
-- `user_controller.py`: rotas para listagem, adição, edição e remoção de usuários.
-- `base_controller.py`: classe base com utilitários comuns.
+### Template Original
 
-### `models/`
-Define as classes que representam os dados da aplicação. Exemplo:
-- `user.py`: classe `User`, com atributos como `id`, `name`, `email`, etc.
+Este projeto foi desenvolvido a partir de um template didático para a disciplina de Programação Orientada a Objetos, baseado no [BMVC](https://github.com/hgmachine/bmvc_start_from_this). A licença do template original permite reutilizar, modificar e compartilhar livremente.
 
-### `services/`
-Responsável por salvar, carregar e manipular dados usando arquivos JSON. Exemplo:
-- `user_service.py`: contém métodos como `get_all`, `add_user`, `delete_user`.
+### Projeto "Mouseion"
 
-### `views/`
-Contém os arquivos `.tpl` utilizados pelo Bottle como páginas HTML:
-- `layout.tpl`: estrutura base com navegação e bloco `content`.
-- `users.tpl`: lista os usuários.
-- `user_form.tpl`: formulário para adicionar/editar usuário.
-
-### `static/`
-Arquivos estáticos como:
-- `css/style.css`: estilos básicos.
-- `js/main.js`: scripts JS opcionais.
-- `img/BottleLogo.png`: exemplo de imagem.
-
-### `data/`
-Armazena os arquivos `.json` que simulam o banco de dados:
-- `users.json`: onde os dados dos usuários são persistidos.
-
----
-
-## ▶️ Como Executar
-
-1. Crie o ambiente virtual na pasta fora do seu projeto:
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\\Scripts\\activate     # Windows
-```
-
-2. Entre dentro do seu projeto criado a partir do template e instale as dependências:
-```bash
-pip install -r requirements.txt
-```
-
-3. Rode a aplicação:
-```bash
-python main.py
-```
-
-4. Accese sua aplicação no navegador em: [http://localhost:8080](http://localhost:8080)
-
----
-
-## ✍️ Personalização
-Para adicionar novos modelos (ex: Atividades):
-
-1. Crie a classe no diretório **models/**.
-
-2. Crie o service correspondente para manipulação do JSON.
-
-3. Crie o controller com as rotas.
-
-4. Crie as views .tpl associadas.
-
----
-
-## 🧠 Autor e Licença
-Projeto desenvolvido como template didático para disciplinas de Programação Orientada a Objetos, baseado no [BMVC](https://github.com/hgmachine/bmvc_start_from_this).
-Você pode reutilizar, modificar e compartilhar livremente.
+* **Autor:** Leonardo Póvoa Ortegal
+* **Desenvolvimento:** 2025
+* **Contexto:** Projeto final da disciplina de Orientação a Objetos - 2025.1.
