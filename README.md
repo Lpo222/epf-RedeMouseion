@@ -20,7 +20,7 @@ Mouseion é uma aplicação web desenvolvida em Python com o framework Bottle. I
 
 ---
 
-    DIAGRAMA DE CLASSES
+![Diagrama de Classes](docs/diagrama_classes.png)
 
 ```
 
@@ -33,7 +33,7 @@ Mouseion é uma aplicação web desenvolvida em Python com o framework Bottle. I
 ### Passos para Instalação
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/desktop/desktop/issues/18661](https://github.com/desktop/desktop/issues/18661)
+    git clone https://github.com/Lpo222/epf-RedeMouseion.git
     cd nome-da-pasta-do-projeto
     ```
 
