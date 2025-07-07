@@ -4,8 +4,8 @@ import bcrypt
 
 # --- INFORMAÇÕES DO ADMIN ---
 ADMIN_NAME = "Admin"
-ADMIN_EMAIL = "admin@museion.com"
-ADMIN_PASSWORD = "123" # Escolha uma senha forte
+ADMIN_EMAIL = "admin@mouseion.com"
+ADMIN_PASSWORD = "000" # Escolha uma senha forte
 # --------------------------
 
 DB_PATH = os.path.join('data', 'database.db')

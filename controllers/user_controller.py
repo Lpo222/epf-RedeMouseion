@@ -29,6 +29,8 @@ class UserController(BaseController):
         self.app.route('/users', method='GET', callback=self.list_users)
         self.app.route('/users/add', method=['GET', 'POST'], callback=self.add_user)
         self.app.route('/profile', method='GET', callback=self.show_profile)
+        self.app.route('/users/edit/<user_id:int>', method=['GET', 'POST'], callback=self.edit_user)
+        self.app.route('/users/delete/<user_id:int>', method='POST', callback=self.delete_user)
 
     def list_users(self):
         current_user = self.get_current_user()
